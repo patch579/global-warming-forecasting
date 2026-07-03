@@ -1,4 +1,4 @@
-# 🌍 Predictive Modeling of Global Warming via Cumulative GHG Emissions
+# 🌍 Predictive Modeling of Global Warming (via Cumulative GHG Emissions)
 
 ![Python Version](https://shields.io)
 ![SQL](https://shields.io)
