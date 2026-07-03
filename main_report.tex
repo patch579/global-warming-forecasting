@@ -1,0 +1,127 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel} % Forcing professional English formatting
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath} % Added for advanced scientific notation
+
+\title{\textbf{Data-Driven Predictive Modeling of Global Warming via Cumulative GHG Emissions}}
+\author{\textbf{Dr. Patricio Limon} \\ \textit{Data Scientist \& Researcher}}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract}
+		This research delivers an end-to-end analytical framework linking historical anthropogenic Greenhouse Gas (GHG) emissions with global surface temperature anomalies. By establishing a robust pipeline between relational databases and machine learning regressors, we model the planet's climate trajectory under a non-linear paradigm. The resulting model projects a critical warming threshold heading into the year 2060, providing empirical, quantitative evidence regarding the climatic risks of a business-as-usual policy path.
+	\end{abstract}
+	
+	\section{Background and Overview}
+	
+	Anthropogenic climate change represents one of the most severe systemic disruptions of the Anthropocene, threatening ecological stability, global economic architectures, and human societal continuity. The primary physical mechanism driving global warming is the enhanced greenhouse effect. While political and media discourses frequently isolate carbon dioxide ($CO_2$) as the sole metric of concern, modern atmospheric physics requires a comprehensive evaluation of total Greenhouse Gases (GHGs). This aggregate encompasses highly potent radiative forcing agents, most notably methane ($CH_4$) and nitrous oxide ($N_2O$), which possess significantly higher global warming potentials over shorter time horizons than $CO_2$. To standardize these diverse chemical behaviors, climate analytics utilizes metric tons of carbon dioxide equivalent ($CO_2eq$) as a universal baseline.
+	
+	The international community, formalized through the landmark Paris Agreement, established a strict target to limit global mean temperature increases to well below 2.0~°C, with an aspirational safety ceiling of 1.5~°C above pre-industrial levels. Atmospheric modeling demonstrates that breaching these thresholds triggers cascading, non-linear tipping points. These include the self-reinforcing feedback loops of polar albedo loss, the massive release of permafrost methane, and severe ocean acidification. 
+	
+	Despite these explicit warnings, a widening delta persists between international policy declarations and actual global emission trajectories. This disconnect creates a critical mandate for data science: \textit{What is the mathematically verified trajectory of the global thermal anomaly if industrial output continues under a trajectory of political inaction, commonly defined as a ``Business As Usual'' (BAU) scenario?}
+	
+	This investigation addresses this challenge by structuring a clean, unified data stream. By pairing multi-century historical inventories of total global GHG emissions with empirical global temperature anomalies, we deploy an ordinary least squares polynomial regressor. The objective of this research is twofold: to provide a rigorous mathematical projection of the Earth's thermal state up to the year 2060, and to establish an interactive Business Intelligence (BI) environment that serves as an empirical tool for global energy transition risk assessment.
+
+\section{Data Structure Overview and Methodology}
+
+The empirical foundation of this research relies on the integration of two independent, high-fidelity historical repositories compiled by the scientific platform \textit{Our World in Data}. To transition from raw datasets into an actionable analytical framework, a rigorous, reproducible data engineering and modeling pipeline was deployed.
+
+\subsection{Greenhouse Gas Emissions Inventory}
+The primary independent variable represents the absolute volume of global anthropogenic greenhouse gas emissions. This multi-gas inventory unifies the radiative impact of $CO_2$, $CH_4$, $N_2O$, and F-gases into a single metrics baseline.
+\begin{itemize}
+	\item \textbf{Temporal Coverage:} 1850 to 2021 (Annual resolution).
+	\item \textbf{Primary Features:} \texttt{Entity} (Geopolitical region or country), \texttt{Code} (ISO 3-letter spatial identifier), \texttt{Year} (Temporal anchor), and \texttt{Total\_GHG\_Emissions} (Quantified in metric tons of carbon dioxide equivalent, $CO_2eq$).
+	\item \textbf{Scale Profile:} Historical values span from $6.25 \times 10^9$ metric tons in the mid-19th century to over $5.31 \times 10^{10}$ metric tons in the modern era, requiring native \texttt{NUMERIC} or \texttt{DOUBLE PRECISION} data types to prevent overflow or precision loss.
+\end{itemize}
+
+\subsection{Global Temperature Anomalies}
+The dependent variable captures the Earth's thermal response, measured as the deviation of global mean surface temperatures relative to a baseline reference period.
+\begin{itemize}
+	\item \textbf{Temporal Coverage:} 1850 to 2021 (Annual resolution).
+	\item \textbf{Primary Features:} \texttt{Entity}, \texttt{Code}, \texttt{Year}, and \texttt{Average} (The mean surface temperature anomaly expressed in degrees Celsius, °C). It includes \texttt{Lower\_Bound} and \texttt{Upper\_Bound} attributes representing the 95\% confidence intervals of scientific measurement uncertainty.
+\end{itemize}
+
+\subsection{Analytical Methodology and Database Pipeline}
+The extraction, transformation, and analytical pipeline was executed through an integrated data architecture across four distinct stages:
+\begin{enumerate}
+	\item \textbf{Relational Database Engineering (PostgreSQL):} Raw datasets were normalized and ingested into a local \textbf{PostgreSQL 16} cluster. To eliminate geographical redundancies and prevent severe dimensional distortion—such as the double-counting of country-level emissions within continental aggregates like \textit{North America}—a custom SQL Database View (\texttt{global\_climate\_clean}) was engineered. This view aggregated the data via an inner join on the spatial anchor \texttt{'OWID\_WRL'}, collapsing multi-row cartesian products into a strict tabular alignment where each year ($t$) corresponds to exactly one unique record ($rows\_per\_year = 1$).
+	\item \textbf{Exploratory Data Analysis (Pandas \& Seaborn):} The clean relational view was ingested into a \textbf{Python 3.10} environment using \textbf{SQLAlchemy} and \textbf{Pandas}. Mathematical auditing and exploratory visualizations revealed a non-linear, accelerating relationship between cumulative global emissions and thermal response, establishing the mandate for an advanced modeling framework.
+	\item \textbf{Machine Learning Architecture (Scikit-learn):} The data was split into an 80\% training set and a 20\% testing set via \texttt{train\_test\_split}. Using \textbf{Scikit-learn}, the independent variable was processed using a \textbf{Second-Degree Polynomial Regressor} (\texttt{PolynomialFeatures(degree=2)}), allowing the ordinary least squares linear optimizer to accurately capture the accelerating curvature of planetary heating.
+	\item \textbf{Business Intelligence and Visualization (Power BI):} The analytical outputs were exported into a parallel four-column schema to feed an interactive Dashboard in \textbf{Power BI}. This environment displays historical descriptive analytics, national contributions, and long-term algorithmic projections in a high-contrast dark-mode interface.
+\end{enumerate}
+
+\section{Executive Summary}
+\label{sec:executive_summary}
+
+This investigation delivers a comprehensive, data-driven synthesis of the global climate crisis, validating the physical mechanics, geopolitical accountability, and long-term trajectory of global warming. The analytical narrative unfolds across three strategic pillars: empirical confirmation, spatial attribution, and algorithmic simulation.
+
+\subsection{Empirical Validation of Thermal Forcing}
+The empirical foundation establishes an undeniable causal link between anthropogenic activity and planetary heating. Exploratory data analysis confirms that global surface temperature increases concurrently with the concentration of atmospheric Greenhouse Gases (GHGs). Statistical modeling quantifies this relationship with an exceptionally strong correlation coefficient ($R^2$ Score) exceeding \textbf{0.9017}. Coupled with a remarkably low Root Mean Squared Error (RMSE) of just \textbf{0.1065~°C} over unseen testing data, the model mathematically proves that modern global warming is strictly driven by cumulative greenhouse gas forcing, moving beyond theoretical assumptions into empirical certainty, as visually demonstrated by the historical concurrent trend in \textbf{Figure~\ref{fig:historical_trend}}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.90\textwidth]{C:/Users/patch/Desktop/climate_change_db/historical_trend.png}
+	\caption{Historical Concurrent Trend: Interaction between total global greenhouse gas emissions and observed temperature anomaly variations.}
+	\label{fig:historical_trend}
+\end{figure}
+
+\subsection{Geopolitical Attribution and Mexico's Positioning}
+A spatial breakdown of recent inventory data isolates the primary drivers of global emissions, revealing a heavily skewed distribution of climate accountability. As illustrated in the global distribution share in \textbf{Figure~\ref{fig:emissions_pie}}, the macro-analytical dashboard ranks the highest-emitting territories and economic aggregates as follows:
+\begin{enumerate}
+	\item \textbf{Asia:} The leading continental aggregate, driven by rapid industrialization.
+	\item \textbf{Upper-Middle-Income Countries:} The dominant socio-economic group shifting the manufacturing baseline.
+	\item \textbf{China:} The single largest national emitter globally.
+	\item \textbf{North America \& Europe:} The historically dominant industrialized regions maintaining massive legacy carbon footprints.
+\end{enumerate}
+Within this global landscape, \textbf{Mexico} occupies a critical structural position. As a leading developing economy within North America, its national emissions profile places it among the top global contributors, embedding the nation deeply within the challenges of regional decarbonization and the global energy transition.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\textwidth]{C:/Users/patch/Desktop/climate_change_db/emissions_pie.png}
+	\caption{Geopolitical Attribution Share: Pie chart analysis isolating major global polluters and Mexico's relative placement.}
+	\label{fig:emissions_pie}
+\end{figure}
+
+\subsection{Predictive Risk Assessment and Policy Urgency}
+Operating under a Business-As-Usual (BAU) simulation framework—assuming an inertial 1\% annual growth rate in global emissions—the trained polynomial algorithm projects an accelerated thermal trajectory. As mapped out by the long-term forecast in \textbf{Figure~\ref{fig:prediction_2060}}, by the year \textbf{2060}, the global temperature anomaly is predicted to reach an alarming \textbf{2.52~°C}, completely breaching the 1.5~°C and 2.0~°C safety thresholds mandated by the Paris Agreement. This projected state warns of imminent climate catastrophes, including the irreversible collapse of marine ecosystems, systemic agricultural failures, and extreme meteorological volatility, emphasizing that immediate, aggressive mitigation strategies are no longer optional, but vital for global survival.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.90\textwidth]{C:/Users/patch/Desktop/climate_change_db/prediction_2060.png}
+	\caption{Predictive Climate Forecast: Scikit-learn polynomial regression mapping the thermal anomaly acceleration up to the year 2060.}
+	\label{fig:prediction_2060}
+\end{figure}
+
+\section{Economic and Environmental Recommendations}
+\label{sec:recommendations}
+
+The actionable utility of this end-to-end Data Science project extends far beyond academic modeling; it functions as a highly scalable risk-assessment tool for corporate decision-makers, financial institutions, and public policy architects. By translating data pipelines into strategic foresight, the following economic and environmental recommendations are proposed to mitigate the projected 2.52~°C thermal threshold.
+
+\subsection{Data-Driven Carbon Pricing and Transition Finance}
+The exceptionally high correlation ($R^2 > 0.9017$) validated by our Scikit-learn regressor provides financial markets with a mathematically sound baseline to price climate risk accurately.
+\begin{itemize}
+	\item \textbf{Transition Risk Quantifying:} Financial institutions must integrate these polynomial projection vectors into their portfolio stress-testing frameworks. Assets heavily exposed to legacy carbon emissions in historically high-polluting sectors must be aggressively discounted.
+	\item \textbf{Carbon Tax Optimization:} Governments within top-emitting aggregates can leverage this database pipeline to establish progressive carbon pricing mechanisms. For instance, tax penalties should scale non-linearly alongside a country's or industry's deviation from the Paris Agreement baseline.
+\end{itemize}
+
+\subsection{Strategic Energy Decarbonization and Mexico's Roadmap}
+The geographical distribution isolated by the Power BI descriptive dashboard maps out where capital allocation will yield the highest environmental and economic return on investment (ROI).
+\begin{itemize}
+	\item \textbf{High-Impact Technology Transfer:} Since major manufacturing hubs and upper-middle-income countries dominate global shares, international climate funds must prioritize financing large-scale grid decarbonization and green hydrogen infrastructure in these specific industrial corridors.
+	\item \textbf{Mexico's Nearshoring Opportunity:} As a critical node in North America, Mexico can utilize these analytics to position itself as a sustainable manufacturing hub. By enforcing stringent corporate decarbonization standards and expanding domestic renewable energy capacity, Mexico can capture premium international investments looking to hedge against global transition risks.
+\end{itemize}
+
+\subsection{Project Scalability and Business Intelligence Utility}
+The technical architecture of this repository (PostgreSQL + Python + Power BI) represents a minimum viable product (MVP) for enterprise-level Environmental, Social, and Governance (ESG) compliance.
+\begin{itemize}
+	\item \textbf{Real-Time Corporate Analytics:} This workflow can be seamlessly scaled to ingest corporate-level supply chain emissions (Scope 1, 2, and 3). Businesses can automate their ESG reporting by replacing our open-source datasets with live data streams.
+	\item \textbf{Predictive Simulation Tools:} Corporate strategy teams can duplicate our polynomial simulation block to evaluate ``What-If'' micro-scenarios—such as calculating the exact financial and thermal impact of shifting 30\% of logistics operations to electric vehicle fleets by 2035.
+\end{itemize}
+
+
+\end{document}
