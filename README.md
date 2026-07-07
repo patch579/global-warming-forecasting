@@ -55,5 +55,5 @@ This repository contains an end-to-end Data Science and Data Engineering project
 
 ## 👤 Author
 
-* **Dr. Patricio Limon** - *Data Scientist & Researcher*
+* **Patricio Limon** - *Data Analyst & Researcher*
 * [LinkedIn Profile](https://linkedin.com) | [Professional Email Contact](mailto:your.email@example.com)
